@@ -1,38 +1,127 @@
-.App {
-  text-align: center;
+.app {
+	height: 70vh;
+	background-color: white;
+	border-radius: 20px;
+	margin-top: 16px;
+	box-shadow: 0 0 8px -4px rgba(0, 0, 0, 0.5);
+	display: grid;
 }
 
-.App-logo {
-  height: 40vmin;
-  pointer-events: none;
+.app .leaflet-container {
+	height: 100%;
+	width: 80vw;
+	border-radius: 12px;
+	display: unset;
+}
+body {
+	/* The background here is important since it's the color we'll be changing with the mix-blend-mode */
+	background: #39315a;
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	justify-content: center;
+	height: 100vh;
+	font-family: system-ui, sans-serif;
 }
 
-@media (prefers-reduced-motion: no-preference) {
-  .App-logo {
-    animation: App-logo-spin infinite 20s linear;
-  }
+/* Styles for the emojis */
+h1 {
+	font-size: 4rem;
+	margin-bottom: 1rem;
+	display: block;
+	/* Add z-index to show them on top of the dark mode overlay and prevent the color change */
+	z-index: 1;
 }
 
-.App-header {
-  background-color: #282c34;
-  min-height: 100vh;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  font-size: calc(10px + 2vmin);
-  color: white;
+/* Styles for the checkbox */
+input[type='checkbox'] {
+	/* This ensures that the input and label will be placed on top of the overlay so they can be clicked */
+	z-index: 1;
+	/* Remove default styles and style the checkbox */
+	-webkit-appearance: none;
+	width: 5rem;
+	height: 1.6rem;
+	border: 1px solid rgba(160, 160, 160, 1);
+	border-radius: 1rem;
+	position: relative;
+	outline: none;
 }
 
-.App-link {
-  color: #61dafb;
+/* Styles for the switch */
+input[type='checkbox']::after {
+	position: absolute;
+	top: -14px;
+	left: 0;
+	content: '';
+	width: 44px;
+	height: 44px;
+	border: 1px solid #514878;
+	border-radius: 50%;
+	background: #514878;
+	/* border-top-left-radius: 1rem;
+	border-bottom-left-radius: 1rem; */
+	content: '🌜';
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	color: white;
+	font-size: 48px;
 }
 
-@keyframes App-logo-spin {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
+/* Styles for the label */
+label::before {
+	display: block;
+	color: white;
+	/* We place the text here so we can change it when the checbkox is clicked */
+	content: 'Click on the map to locate yourself';
+	margin-top: 1rem;
+	font-size: 2rem;
+	font-weight: 100;
+}
+
+/* This is the dark mode overlay we'll toggle when the checkbox is checked */
+.dark-mode {
+	width: 100vw;
+	height: 100vh;
+	position: fixed;
+	top: 0;
+	left: 0;
+	transition: all 0.3s ease-in-out;
+	/* We hide this overlay by default, since we'll be enabling it by clicking on the checkbox*/
+	opacity: 0;
+	/* These are the two lines that generate the dark mode effect */
+	background: white;
+	mix-blend-mode: difference;
+}
+
+/* This line toggles the dark mode overlay when the checkbox is checked */
+input[type='checkbox']:checked ~ .dark-mode {
+	opacity: 1;
+}
+
+/* Move the switch when the checkbox is checked and change the color */
+input[type='checkbox']:checked::after {
+	right: 0;
+	left: auto;
+	background: #ffffff;
+	/* border-top-left-radius: 0;
+	border-bottom-left-radius: 0; */
+	/* border-top-right-radius: 1rem;
+	border-bottom-right-radius: 1rem; */
+	content: '🌝';
+	font-size: 48px;
+}
+
+/* We change the text and the color of the label when the dark mode overlay is enabled */
+input[type='checkbox']:checked ~ label:before {
+	content: 'Click on the map to locate yourself';
+}
+.leaflet-touch .leaflet-bar a:first-child,
+.leaflet-touch .leaflet-bar a:last-child {
+	border-radius: 50%;
+	border-top-left-radius: -1 !important;
+	border-top-right-radius: -1 !important;
+}
+.leaflet-touch .leaflet-bar {
+	border: none;
 }
